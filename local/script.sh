@@ -12,7 +12,9 @@ do
     ST=${ST%?}
     echo $ST
     wget -O $ST.html 127.0.0.1:8000$each
-    echo "<a href=\"Poll/$ST.html\">POLL $ST</a>" >> list.html
+    Question=$(grep -o '<h1>.*</h1>' $ST.html | sed 's/\(<h1>\|<\/h1>\)//g')
+    Answers=($(grep -o '<label.*>.*</label>' $ST.html | sed 's/\(<h1>\|<\/h1>\)//g'))
+    echo "<a href=\"Poll/$ST.html\">$Question</a>" >> list.html
     echo "<br>" >> list.html
     mv $ST.html Poll/
   fi
