@@ -340,8 +340,7 @@ def export_signature_javascript(y, message, signature, foler_name='./data', file
     arch.close()
 
 
-def main():
-     
+def main(): 
     number_participants = 3
 
     x = [ randrange(SECP256k1.order) for i in range(number_participants)]
