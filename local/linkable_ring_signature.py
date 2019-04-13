@@ -341,26 +341,61 @@ def export_signature_javascript(y, message, signature, foler_name='./data', file
 
 
 def main(): 
-    number_participants = 3
-
-    x = [ randrange(SECP256k1.order) for i in range(number_participants)]
+    x = [ randrange(SECP256k1.order) for i in range(2)]
     y = list(map(lambda xi: SECP256k1.generator * xi, x))
-    
     print(x,y)
-    
-    message = "Every move we made was a kiss"
 
-    i = 2
-    for i in range(0,number_participants):
-        print (i)
-        signature = ring_signature(x[i], i, message, y)
-        print (signature)
-        assert(verify_ring_signature(message, y, *signature))
-   
-    for i in range(0,number_participants):
-        print (i)
-        signature = ring_signature(x[i], i, message+"join", y)
-        assert(verify_ring_signature(message+"join", y, *signature))
+    with open("nonce.txt") as f:
+        nonce=f.readlines()
+    f.close()
+    with open("datahash.txt") as f:
+        message=f.readlines()
+    f.close()
+    with open("pubkey.txt") as f:
+        pubkey=f.readlines()
+    f.close()
+    with open("privkey.txt") as f:
+        privkey=f.readlines()
+    f.close()
+    with open("pollno.txt") as f:
+        pollno=f.readlines()
+    f.close()
+    with open("allFaculty") as f:
+        facultylist=f.readlines()
+    facultylist=[x.split(',') for x in facultylist]
+    pubkey_list=[x[1] for x in facultylist]
+
+    index=-1
+    for i in range(0,len(pubkey_list)):
+        pubkey_list[i]=pubkey_list[i][:-1]
+        if(pubkey_list[i]==pubkey[0]):
+            index=i
+            break
+    if(index==-1):
+        print("The public key is not an registered voter")
+        exit()
+
+    print(privkey[0],index,message[0],pubkey_list)
+    signature=ring_signature(privkey[0],index,message[0],pubkey_list)
+    print(signature)
+
+    #     signature = ring_signature(x[i], i, message+"join", y)
+    
+    # number_participants = 3
+    # x = [ randrange(SECP256k1.order) for i in range(number_participants)]
+    # y = list(map(lambda xi: SECP256k1.generator * xi, x))
+    # print(x,y)
+    # message = "Every move we made was a kiss"
+    # i = 2
+    # for i in range(0,number_participants):
+    #     print (i)
+    #     signature = ring_signature(x[i], i, message, y)
+    #     print (signature)
+    #     assert(verify_ring_signature(message, y, *signature))
+    # for i in range(0,number_participants):
+    #     print (i)
+    #     signature = ring_signature(x[i], i, message+"join", y)
+    #     assert(verify_ring_signature(message+"join", y, *signature))
 
 if __name__ == '__main__':
     main()

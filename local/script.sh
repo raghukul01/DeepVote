@@ -1,5 +1,6 @@
 #!/bin/bash
 wget -O allPolls 127.0.0.1:8000/polls
+wget -O allFaculty 127.0.0.1:8000/getfaculty
 rm -rf Poll
 mkdir Poll
 rm list.html
@@ -12,7 +13,7 @@ do
     ST=${ST%?}
     echo $ST
     wget -O $ST.html 127.0.0.1:8000$each
-    Question=$(grep -o '<h1>.*</h1>' $ST.html | sed 's/\(<h1>\|<\/h1>\)//g')
+    Question=$(grep -o '<h1>.*</h1>' $ST.html | sed 's/\(<h1>\|<\/h1>\)//g')1
     Answers=$(grep -o '<label.*>.*</label>' $ST.html )
     Answers=($(echo $Answers | sed 's/<\/\?[^>]\+>//g'))
     rm $ST.html
@@ -26,9 +27,9 @@ do
     echo "</fieldset>" >> $ST.html
     echo "<fieldset>" >> $ST.html 
     echo "<legend>Public Key</legend>" >>$ST.html
-    echo "<textarea name=\"pubkey\" placeholder=\"Enter your public key\"> </textarea>" >>$ST.html
+    echo "<textarea name=\"pubkey\" placeholder=\"Enter your public key\"></textarea>" >>$ST.html
     echo "<legend>Private Key</legend>" >>$ST.html
-    echo "<textarea name=\"prikey\" placeholder=\"Enter your private key\"> </textarea>" >>$ST.html
+    echo "<textarea name=\"prikey\" placeholder=\"Enter your private key\"></textarea>" >>$ST.html
     echo "</fieldset>" >> $ST.html
     echo "<input type=\"text\" name=\"pollno\" value=\"$ST\" readonly hidden>" >>$ST.html
     echo "<input type=\"submit\" value=\"Vote\">" >> $ST.html
