@@ -13,6 +13,7 @@ import hashlib
 import sha3
 import functools
 import ecdsa
+import pickle
 
 from ecdsa.util import randrange
 from ecdsa.ecdsa import curve_secp256k1
@@ -361,7 +362,7 @@ def main():
         pollno=f.readlines()
     f.close()
     with open("allFaculty") as f:
-        facultylist=f.readlines()
+        facultylist=pickle.load()
     facultylist=[x.split(',') for x in facultylist]
     pubkey_list=[x[1] for x in facultylist]
 
