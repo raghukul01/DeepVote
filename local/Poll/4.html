@@ -1,15 +1,18 @@
-<h1>uaefouhfeaoub?</h1>
-
-
-
-<form action="/polls/4/vote/" method="post">
-<input type="hidden" name="csrfmiddlewaretoken" value="rxZ94r5lcBGVhau8GCuXAtLJ1b8SYRyAmmm3smqEDGKBnuHW6pZ8etWadWKAS03C">
-
-    <input type="radio" name="choice" id="choice1" value="9">
-    <label for="choice1">df</label><br>
-
-    <input type="radio" name="choice" id="choice2" value="10">
-    <label for="choice2">eaffaeg</label><br>
-
+<html>
+<form action="../sign.php" method="post">
+<fieldset><legend>uaefouhfeaoub?</legend>
+<input type="radio" value="df" name="vote"><label>df</label>
+<br>
+<input type="radio" value="eaffaeg" name="vote"><label>eaffaeg</label>
+<br>
+</fieldset>
+<fieldset>
+<legend>Public Key</legend>
+<textarea name="pubkey" placeholder="Enter your public key"> </textarea>
+<legend>Private Key</legend>
+<textarea name="prikey" placeholder="Enter your private key"> </textarea>
+</fieldset>
+<input type="text" name="pollno" value="4" readonly hidden>
 <input type="submit" value="Vote">
 </form>
+</html>

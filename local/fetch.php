@@ -1,6 +1,6 @@
 <?php
 if ($_GET['run']) {
-  shell_exec("/var/www/html/local/script.sh");
+  shell_exec("/home/yash/Downloads/CS731/blockchain_project/local/script.sh");
 }
 ?>
 <html>

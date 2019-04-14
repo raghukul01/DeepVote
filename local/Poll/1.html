@@ -1,15 +1,22 @@
-<h1>What&#39;s new?</h1>
-
-
-
-<form action="/polls/1/vote/" method="post">
-<input type="hidden" name="csrfmiddlewaretoken" value="EOqTQi6KxEfnTCnZhHfIwFHjljFTGQ4An2yCysous8PiNR92zrrx9O1LUQqRCuUq">
-
-    <input type="radio" name="choice" id="choice1" value="1">
-    <label for="choice1">Not much</label><br>
-
-    <input type="radio" name="choice" id="choice2" value="2">
-    <label for="choice2">The sky</label><br>
-
+<html>
+<form action="../sign.php" method="post">
+<fieldset><legend>What&#39;s new?</legend>
+<input type="radio" value="Not" name="vote"><label>Not</label>
+<br>
+<input type="radio" value="much" name="vote"><label>much</label>
+<br>
+<input type="radio" value="The" name="vote"><label>The</label>
+<br>
+<input type="radio" value="sky" name="vote"><label>sky</label>
+<br>
+</fieldset>
+<fieldset>
+<legend>Public Key</legend>
+<textarea name="pubkey" placeholder="Enter your public key"> </textarea>
+<legend>Private Key</legend>
+<textarea name="prikey" placeholder="Enter your private key"> </textarea>
+</fieldset>
+<input type="text" name="pollno" value="1" readonly hidden>
 <input type="submit" value="Vote">
 </form>
+</html>

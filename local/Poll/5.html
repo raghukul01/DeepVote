@@ -1,12 +1,16 @@
-<h1>test1?</h1>
-
-
-
-<form action="/polls/5/vote/" method="post">
-<input type="hidden" name="csrfmiddlewaretoken" value="Fkbm0G6V9J4xeDI1vR9lSPjCTlNOLkENlmyeiGuQ0tnfx8JHRp0nutAiPJx22mDN">
-
-    <input type="radio" name="choice" id="choice1" value="11">
-    <label for="choice1">test</label><br>
-
+<html>
+<form action="../sign.php" method="post">
+<fieldset><legend>test1?</legend>
+<input type="radio" value="test" name="vote"><label>test</label>
+<br>
+</fieldset>
+<fieldset>
+<legend>Public Key</legend>
+<textarea name="pubkey" placeholder="Enter your public key"> </textarea>
+<legend>Private Key</legend>
+<textarea name="prikey" placeholder="Enter your private key"> </textarea>
+</fieldset>
+<input type="text" name="pollno" value="5" readonly hidden>
 <input type="submit" value="Vote">
 </form>
+</html>
