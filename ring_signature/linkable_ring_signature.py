@@ -13,6 +13,7 @@ import hashlib
 import sha3
 import functools
 import ecdsa
+import pickle
 
 from ecdsa.util import randrange
 from ecdsa.ecdsa import curve_secp256k1
@@ -343,10 +344,39 @@ def export_signature_javascript(y, message, signature, foler_name='./data', file
 def main():
      
     number_participants = 3
+    # number_participants = 10
 
     x = [ randrange(SECP256k1.order) for i in range(number_participants)]
     y = list(map(lambda xi: SECP256k1.generator * xi, x))
-    
+
+
+    '''
+    faculty = [
+                'Amey Karkare',
+                'Anil Seth',
+                'Arnab Bhattacharya',
+                'Debadatta Mishra',
+                'Mainak Chaudhari',
+                'Nitin Saxena',
+                'Rajat Mittal',
+                'Sandeep Shukla',
+                'SK Mehta',
+                'Sumit Ganguly',
+            ]
+
+    assert(len(faculty) == number_participants)
+
+    private_key_dict = []
+    public_key_dict = []
+    for i in range(number_participants):
+        private_key_dict.append([faculty[i], x[i]])
+        public_key_dict.append([faculty[i], y[i]])
+
+    pickle.dump(private_key_dict, open('faculty.prv', 'wb'))
+    pickle.dump(public_key_dict, open('faculty.pub', 'wb'))
+    '''
+
+
     print(x,y)
     
     message = "Every move we made was a kiss"
