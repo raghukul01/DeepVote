@@ -20,7 +20,7 @@ from ecdsa.ecdsa import curve_secp256k1
 from ecdsa.curves import SECP256k1
 from ecdsa import numbertheory
 
-dic=[]
+dic = pickle.load(open('unique_sig', 'rb'))
 
 def ring_signature(siging_key, key_idx, M, y, G=SECP256k1.generator, hash_func=sha3.keccak_256):
     """ 
@@ -80,7 +80,6 @@ def ring_signature(siging_key, key_idx, M, y, G=SECP256k1.generator, hash_func=s
 
     # STEP 4
     s[key_idx] = (u - siging_key * c[key_idx]) % SECP256k1.order
-    dic.append(Y)
     return (c[0], s, Y)
 
 
@@ -112,8 +111,11 @@ def verify_ring_signature(message, y, c_0, s, Y, G=SECP256k1.generator, hash_fun
             Boolean value indicating if signature is valid.
 
     """
-    if(dic.count(Y)>=2):
-        raise NameError("dfedfe")
+    if Y in dic:
+        print('Already voted')
+        return -1
+    dic.append(Y)
+    pickle.dump(dic, open('unique_sig', 'wb'))
     n = len(y)
     c = [c_0] + [0] * (n - 1)
 
@@ -125,10 +127,10 @@ def verify_ring_signature(message, y, c_0, s, Y, G=SECP256k1.generator, hash_fun
 
         if i < n - 1:
             c[i + 1] = H1([y, Y, message, z_1, z_2], hash_func=hash_func)
-        else:
-            return c_0 == H1([y, Y, message, z_1, z_2], hash_func=hash_func)
+        else:            
+            return int(c_0 == H1([y, Y, message, z_1, z_2], hash_func=hash_func))
 
-    return False
+    return 0
 
 
 def map_to_curve(x, P=curve_secp256k1.p()):

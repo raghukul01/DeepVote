@@ -79,8 +79,8 @@ class Point(object):
 
   def __eq__(self, other):
     """Return True if the points are identical, False otherwise."""
-    if self.__curve == other.__curve \
-       and self.__x == other.__x \
+    # if self.__curve == other.__curve \
+    if self.__x == other.__x \
        and self.__y == other.__y:
       return True
     else:

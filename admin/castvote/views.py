@@ -23,11 +23,14 @@ def castvote(request, poll_id, hash_val):
 
 	pubKeyList = [facPubKeys[i][1] for i in range(len(facPubKeys))]
 
-	print(verify_ring_signature(hash_val, pubKeyList, *sig))
-	if not verify_ring_signature(hash_val, pubKeyList, *sig):
-		return HttpResponse('signature verification failed', content_type='text/plain')
 
-	# send this to blockchain
+	valid = verify_ring_signature(hash_val, pubKeyList, *sig)
 
-	return HttpResponse('your vote hash has been '+
-					    'published in blockchain', content_type='text/plain')
+	msg = 'lol'
+	if valid == 0:
+		msg = 'signature verification failed'
+	elif valid < 0:
+		msg = 'You have already voted'
+	else:
+		msg = 'your vote hash has been published in blockchain'
+	return HttpResponse(msg, content_type='text/plain')

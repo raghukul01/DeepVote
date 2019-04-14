@@ -365,17 +365,14 @@ def main():
         print('Invalid voter')
         sys.exit()
 
-    print(index)
-    
     sig = ring_signature(privkey, index, hashVal, pubKeys)
     pickle.dump(sig, open('sig_dump', 'wb'))
 
     with open('sig_dump', 'rb') as f:
         r = requests.post('http://127.0.0.1:8000/castvote/'\
                            +pollNo+'/'+hashVal, files={'sig_dump': f})
-        print(r)
+        print(r.content)
 
-    print(pubKeys)
     assert(verify_ring_signature(hashVal, pubKeys, *sig))
 
     # x = [ randrange(SECP256k1.order) for i in range(2)]
