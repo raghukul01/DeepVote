@@ -7,19 +7,12 @@ import os
 
 def getfaculty(request):
 
-	response = HttpResponse(content_type='text/csv')
-	response['Content-Disposition'] = 'attachment; filename="faculty.csv"'
-
-	writer = csv.writer(response)
-
-	# read the config file
-
 	pwd = os.path.dirname(__file__)
 
-	with open(pwd + '/../conf/faculty.csv') as facultyCSV:
-		csvReader = csv.reader(facultyCSV, delimiter=',')
-		for row in csvReader:
-			print(row)
-			writer.writerow(row)
+	with open(pwd + '/../conf/faculty.pub', 'rb') as myfile:
+	  facPubKey = myfile.read()
 
+	filename = 'faculty.pub'
+	response = HttpResponse(facPubKey, content_type='text/plain')
+	response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
 	return response
