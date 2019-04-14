@@ -345,36 +345,41 @@ def main():
     # y = list(map(lambda xi: SECP256k1.generator * xi, x))
     # print(x,y)
 
-    with open("datahash.txt") as f:
-        message=f.readlines()
-    f.close()
+    # with open("datahash.txt") as f:
+    #     message=f.readlines()
+    # f.close()
     with open("pubkey","rb") as f:
         pubkey = pickle.load(f)
     f.close()
+    pubkey=pubkey[1]
+
     with open("privkey") as f:
         privkey=f.readlines()
     f.close()
-    with open("pollno.txt") as f:
-        pollno=f.readlines()
-    f.close()
-    with open("allFaculty") as f:
+    # with open("pollno.txt") as f:
+    #     pollno=f.readlines()
+    # f.close()
+    with open("faculty.pub","rb") as f:
         facultylist=pickle.load(f)
-    # facultylist=[x.split(',') for x in facultylist]
-    # pubkey_list=[x[1] for x in facultylist]
+    pubkey_list=[x[1] for x in facultylist]
 
-    # index=-1
-    # for i in range(0,len(pubkey_list)):
-    #     pubkey_list[i]=pubkey_list[i][:-1]
-    #     if(pubkey_list[i]==pubkey[0]):
-    #         index=i
-    #         break
-    # if(index==-1):
-    #     print("The public key is not an registered voter")
-    #     exit()
+    # with open("pubkey","wb") as handle:
+    #     pickle.dump(facultylist[0],handle,protocol=2)
 
+    index=-1
+    for i in range(0,len(facultylist)):
+        print(facultylist[i][0])
+        if(pubkey_list[i]==pubkey):
+            print("dgdgsd")
+            index=i
+            break
+        print("\n")
+    if(index==-1):
+        print("The public key is not an registered voter")
+        exit()
+    print("success")
     # print(privkey[0],index,message[0],pubkey_list)
-    print(privkey[0],pubkey)
-    print(signature)
+    # print(signature)
     # signature=ring_signature(int(privkey[0]),0,"test",pubkey)
 
     # with open('sigDump','wb') as f:
