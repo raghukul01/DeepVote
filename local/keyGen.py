@@ -12,5 +12,5 @@ from ecdsa import SigningKey
 
 sk = [randrange(SECP256k1.order)]
 vk = map(lambda xi: SECP256k1.generator * xi, sk)
-open("privkey.txt","wb").write(str(sk[0]))
-open("pubkey.txt","wb").write(str(pickle.dumps(vk)))
+open("privkey","wb").write(str(sk[0]))
+open("pubkey","wb").write(pickle.dumps(vk))
