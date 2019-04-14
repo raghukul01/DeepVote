@@ -1,7 +1,7 @@
 <?php
     $vote = $_POST['vote'];
     $pollno = $_POST['pollno'];
-  if(empty($vote)||empty($pollno))
+  if(is_null($vote))
   {
     echo("Incomplete Voting. Please Revote.");
   }

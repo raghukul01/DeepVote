@@ -21,11 +21,11 @@ do
       echo "<html>" >> $ST.html
       echo "<form action=\"../sign.php\" method=\"post\">" >> $ST.html
       echo "<fieldset><legend>$Question</legend>" >> $ST.html
-      $i=0
+      i=0
       for option in "${Answers[@]}" ; do
           echo "<input type=\"radio\" value=\"$i\" name=\"vote\"><label>$option</label>" >> $ST.html
           echo "<br>" >> $ST.html
-          $i=$(($i+1))
+          i=$(($i+1))
       done
       echo "</fieldset>" >> $ST.html
       echo "<input type=\"text\" name=\"pollno\" value=\"$ST\" readonly hidden>" >>$ST.html
