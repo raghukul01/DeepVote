@@ -1,6 +1,8 @@
 <?php
 if ($_GET['run']) {
-  shell_exec("/home/yash/Downloads/CS731/blockchain_project/local/script.sh");
+  $fileName = __FILE__;
+  $newFile = substr($fileName, 0, -9);
+  shell_exec($newFile . "script.sh");
 }
 ?>
 <html>

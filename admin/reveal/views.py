@@ -14,10 +14,9 @@ sys.path.append(os.path.abspath('..'))
 from polls.models import Question, Choice 
 
 
-def _pollActive(pubTime, pollDuration):
+def _pollActive(pubTime):
 	now = timezone.now()
-	print(now - datetime.timedelta(days=pollDuration))
-	return now - datetime.timedelta(days=pollDuration) <= pubTime
+	return now <= pubTime
 
 @csrf_exempt
 def revealvote(request, poll_id, nounce, vote):
@@ -26,9 +25,7 @@ def revealvote(request, poll_id, nounce, vote):
 
 	publishDate = question.pub_date
 
-	pollDuration = 100
-
-	if _pollActive(publishDate, pollDuration):
+	if _pollActive(publishDate):
 		return HttpResponse('poll is still active, '+
 							'cannot reveal vote now.', content_type='text/plain')
 	

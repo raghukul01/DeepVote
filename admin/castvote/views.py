@@ -13,7 +13,7 @@ from linkable_ring_signature import verify_ring_signature
 # Create your views here.
 
 @csrf_exempt
-def castvote(request, hash_val):
+def castvote(request, poll_id, hash_val):
 	sigFile = request.FILES['sig_dump']
 
 	pwd = os.path.dirname(__file__)

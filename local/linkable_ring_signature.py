@@ -14,6 +14,8 @@ import sha3
 import functools
 import ecdsa
 import pickle
+import sys
+import requests
 
 from ecdsa.util import randrange
 from ecdsa.ecdsa import curve_secp256k1
@@ -340,7 +342,35 @@ def export_signature_javascript(y, message, signature, foler_name='./data', file
     arch.close()
 
 
-def main(): 
+def main():
+
+    pollNo = sys.argv[1]
+    hashVal = str(open(pollNo+'datahash.txt', 'r').read())
+    
+    facultylist = pickle.load(open('allFaculty', 'rb'))
+    pubKeys = [facultylist[i][1] for i in range(len(facultylist))]
+
+    privkey = int(open('privkey', 'r').read().strip())
+
+    pubkeytmp = pickle.load(open('pubkey', 'rb'))
+    pubkey = pubkeytmp[1]
+
+    index = -1
+    for i in range(len(pubKeys)):
+        if pubKeys[i] == pubkey:
+            index = i
+            break
+    if index == -1:
+        print('Invalid voter')
+        sys.exit()
+
+    sig = ring_signature(privkey, index, hashVal, pubKeys)
+    pickle.dump(sig, open('sig_dump', 'wb'))
+
+    with open('sig_dump', 'rb') as f:
+        r = requests.post('http://127.0.0.1:8000/castvote/'\
+                           +pollNo+hashVal, files={'sig_dump': f})
+
     # x = [ randrange(SECP256k1.order) for i in range(2)]
     # y = list(map(lambda xi: SECP256k1.generator * xi, x))
     # print(x,y)
@@ -348,36 +378,37 @@ def main():
     # with open("datahash.txt") as f:
     #     message=f.readlines()
     # f.close()
-    with open("pubkey","rb") as f:
-        pubkey = pickle.load(f)
-    f.close()
-    pubkey=pubkey[1]
 
-    with open("privkey") as f:
-        privkey=f.readlines()
-    f.close()
-    # with open("pollno.txt") as f:
-    #     pollno=f.readlines()
+    # with open("pubkey","rb") as f:
+    #     pubkey = pickle.load(f)
     # f.close()
-    with open("faculty.pub","rb") as f:
-        facultylist=pickle.load(f)
-    pubkey_list=[x[1] for x in facultylist]
+    # pubkey=pubkey[1]
 
-    # with open("pubkey","wb") as handle:
-    #     pickle.dump(facultylist[0],handle,protocol=2)
+    # with open("privkey") as f:
+    #     privkey=f.readlines()
+    # f.close()
+    # # with open("pollno.txt") as f:
+    # #     pollno=f.readlines()
+    # # f.close()
+    # with open("faculty.pub","rb") as f:
+    #     facultylist=pickle.load(f)
+    # pubkey_list=[x[1] for x in facultylist]
 
-    index=-1
-    for i in range(0,len(facultylist)):
-        print(facultylist[i][0])
-        if(pubkey_list[i]==pubkey):
-            print("dgdgsd")
-            index=i
-            break
-        print("\n")
-    if(index==-1):
-        print("The public key is not an registered voter")
-        exit()
-    print("success")
+    # # with open("pubkey","wb") as handle:
+    # #     pickle.dump(facultylist[0],handle,protocol=2)
+
+    # index=-1
+    # for i in range(0,len(facultylist)):
+    #     print(facultylist[i][0])
+    #     if(pubkey_list[i]==pubkey):
+    #         print("dgdgsd")
+    #         index=i
+    #         break
+    #     print("\n")
+    # if(index==-1):
+    #     print("The public key is not an registered voter")
+    #     exit()
+    # print("success")
     # print(privkey[0],index,message[0],pubkey_list)
     # print(signature)
     # signature=ring_signature(int(privkey[0]),0,"test",pubkey)

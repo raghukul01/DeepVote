@@ -23,6 +23,6 @@ urlpatterns = [
     path('polls/', include('polls.urls')),
     path('admin/', admin.site.urls),
     path('getfaculty/', faculty.getfaculty),
-    path('castvote/<str:hash_val>', cast.castvote),
+    path('castvote/<int:poll_id>/<str:hash_val>', cast.castvote),
     path('reveal/<int:poll_id>/<str:nounce>/<str:vote>', reveal.revealvote),
 ]
