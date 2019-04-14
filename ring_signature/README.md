@@ -8,8 +8,6 @@ With this package you can perform a ring signature over a set of public key with
 
 This implementation was adapted from finte groups to elliptic curves. The scheme uses a cryptographic function as a random oracle to map numbers into the finit group. This implementation took the random oracle model by hashing into an elliptic curve using the 'Try-and-Increment' Method. More information can be found on [How to hash into Elliptic Curves](https://eprint.iacr.org/2009/226.pdf).
 
-This implementation serves as a proof of concept. DO NOT TRY TO USE THIS FOR ANY REAL USE CASE. THIS HAS NOT BEEN TESTED EXTERNALLY.
-
 
 Sign and verify a message:
 
