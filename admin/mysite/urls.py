@@ -17,10 +17,12 @@ from django.contrib import admin
 from django.urls import include, path
 from getfaculty import views as faculty
 from castvote import views as cast
+from reveal import views as reveal
 
 urlpatterns = [
     path('polls/', include('polls.urls')),
     path('admin/', admin.site.urls),
     path('getfaculty/', faculty.getfaculty),
     path('castvote/', cast.castvote),
+    path('reveal/<int:poll_id>/<int:nounce>/<int:vote>', reveal.revealvote),
 ]
