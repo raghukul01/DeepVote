@@ -10,4 +10,6 @@ if ($_GET['run']) {
 <a href="list.html">See all Polls</a>
 <br>
 <a href="listR.html">See all Reveal Pages</a>
+<br>
+<a href="keyGen.php">Generate Key Pair</a>
 </html>
