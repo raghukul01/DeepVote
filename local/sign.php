@@ -7,8 +7,8 @@
   }
   else
   {
-    $nonce = substr(md5(mt_rand()), 0, 7);
-    $data = $vote.$nonce;
+    $nonce = substr(md5(mt_rand()), 0, 31);
+    $data = $nonce.$vote;
     echo $nonce,"\n";
     echo $vote,"\n";
     echo $data,"\n";
