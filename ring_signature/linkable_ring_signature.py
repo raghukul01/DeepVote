@@ -343,12 +343,17 @@ def export_signature_javascript(y, message, signature, foler_name='./data', file
 
 def main():
      
-    number_participants = 3
-    # number_participants = 10
+    # number_participants = 3
+    # # number_participants = 10
 
-    x = [ randrange(SECP256k1.order) for i in range(number_participants)]
-    y = list(map(lambda xi: SECP256k1.generator * xi, x))
+    # x = [ randrange(SECP256k1.order) for i in range(number_participants)]
+    # y = list(map(lambda xi: SECP256k1.generator * xi, x))
 
+    private_key_dict = pickle.load(open('faculty.prv', 'rb'))
+    public_key_dict = pickle.load(open('faculty.pub', 'rb'))
+
+    pickle.dump(private_key_dict[7], open('privkey', 'wb'))
+    pickle.dump(public_key_dict[7], open('pubkey', 'wb'))
 
     '''
     faculty = [
@@ -377,21 +382,21 @@ def main():
     '''
 
 
-    print(x,y)
+    # print(x,y)
     
-    message = "Every move we made was a kiss"
+    # message = "Every move we made was a kiss"
 
-    i = 2
-    for i in range(0,number_participants):
-        print (i)
-        signature = ring_signature(x[i], i, message, y)
-        print (signature)
-        assert(verify_ring_signature(message, y, *signature))
+    # i = 2
+    # for i in range(0,number_participants):
+    #     print (i)
+    #     signature = ring_signature(x[i], i, message, y)
+    #     print (signature)
+    #     assert(verify_ring_signature(message, y, *signature))
    
-    for i in range(0,number_participants):
-        print (i)
-        signature = ring_signature(x[i], i, message+"join", y)
-        assert(verify_ring_signature(message+"join", y, *signature))
+    # for i in range(0,number_participants):
+    #     print (i)
+    #     signature = ring_signature(x[i], i, message+"join", y)
+    #     assert(verify_ring_signature(message+"join", y, *signature))
 
 if __name__ == '__main__':
     main()

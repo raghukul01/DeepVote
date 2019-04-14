@@ -350,7 +350,8 @@ def main():
     facultylist = pickle.load(open('allFaculty', 'rb'))
     pubKeys = [facultylist[i][1] for i in range(len(facultylist))]
 
-    privkey = int(open('privkey', 'r').read().strip())
+    privkeytmp = pickle.load(open('privkey', 'rb'))
+    privkey = int(privkeytmp[1])
 
     pubkeytmp = pickle.load(open('pubkey', 'rb'))
     pubkey = pubkeytmp[1]
@@ -364,12 +365,18 @@ def main():
         print('Invalid voter')
         sys.exit()
 
+    print(index)
+    
     sig = ring_signature(privkey, index, hashVal, pubKeys)
     pickle.dump(sig, open('sig_dump', 'wb'))
 
     with open('sig_dump', 'rb') as f:
         r = requests.post('http://127.0.0.1:8000/castvote/'\
-                           +pollNo+hashVal, files={'sig_dump': f})
+                           +pollNo+'/'+hashVal, files={'sig_dump': f})
+        print(r)
+
+    print(pubKeys)
+    assert(verify_ring_signature(hashVal, pubKeys, *sig))
 
     # x = [ randrange(SECP256k1.order) for i in range(2)]
     # y = list(map(lambda xi: SECP256k1.generator * xi, x))

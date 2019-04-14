@@ -55,14 +55,14 @@ class CurveFp(object):
   def b(self):
     return self.__b
 
-  def __eq__(self, other):
-    """Return True if the points are identical, False otherwise."""
-    if self.__p == other.__p \
-       and self.__a == other.__a \
-       and self.__b == other.__b:
-      return True
-    else:
-      return False
+  # def __eq__(self, other):
+  #   """Return True if the points are identical, False otherwise."""
+  #   if self.__p == other.__p \
+  #      and self.__a == other.__a \
+  #      and self.__b == other.__b:
+  #     return True
+  #   else:
+  #     return False
   
   def contains_point(self, x, y):
     """Is the point (x,y) on this curve?"""

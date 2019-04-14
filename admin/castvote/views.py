@@ -23,6 +23,7 @@ def castvote(request, poll_id, hash_val):
 
 	pubKeyList = [facPubKeys[i][1] for i in range(len(facPubKeys))]
 
+	print(verify_ring_signature(hash_val, pubKeyList, *sig))
 	if not verify_ring_signature(hash_val, pubKeyList, *sig):
 		return HttpResponse('signature verification failed', content_type='text/plain')
 

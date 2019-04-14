@@ -114,7 +114,6 @@ def verify_ring_signature(message, y, c_0, s, Y, G=SECP256k1.generator, hash_fun
     """
     if(dic.count(Y)>=2):
         raise NameError("dfedfe")
-    print(type(Y))
     n = len(y)
     c = [c_0] + [0] * (n - 1)
 
