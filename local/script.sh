@@ -19,6 +19,7 @@ do
       Answers=($(echo $Answers | sed 's/<\/\?[^>]\+>//g'))
       rm $ST.html
       echo "<html>" >> $ST.html
+      echo "<style>input[type=text], select {  width: 100%;padding: 12px 20px;margin: 8px 0;display: inline-block;border: 1px solid #ccc;border-radius: 4px;box-sizing: border-box;}input[type=submit] {width: 100%;background-color: #4CAF50;color: white;padding: 14px 20px;  margin: 8px 0; border: none;border-radius: 4px;cursor: pointer;}input[type=submit]:hover {background-color: #45a049;}div {border-radius: 5px;background-color: #f2f2f2;padding: 20px;}</style><body><div>" >> $ST.html
       echo "<form action=\"../sign.php\" method=\"post\">" >> $ST.html
       echo "<fieldset><legend>$Question</legend>" >> $ST.html
       i=0
@@ -34,7 +35,7 @@ do
       echo "<form action=\"../reveal.php\" method=\"post\">" >> $ST.html
       echo "<input type=\"text\" name=\"pollno\" value=\"$ST\" readonly hidden>" >>$ST.html
       echo "<input type=\"submit\" value=\"Reveal\">" >> $ST.html
-      echo "</form>" >> $ST.html
+      echo "</form></div></body>" >> $ST.html
 
       echo "<a href=\"Poll/$ST.html\">$Question</a>" >> list.html
       echo "<br>" >> list.html
