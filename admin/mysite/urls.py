@@ -18,6 +18,7 @@ from django.urls import include, path
 from getfaculty import views as faculty
 from castvote import views as cast
 from reveal import views as reveal
+from result import views as result
 
 urlpatterns = [
     path('polls/', include('polls.urls')),
@@ -25,4 +26,5 @@ urlpatterns = [
     path('getfaculty/', faculty.getfaculty),
     path('castvote/<int:poll_id>/<str:hash_val>', cast.castvote),
     path('reveal/<int:poll_id>/<str:nounce>/<str:vote>', reveal.revealvote),
+    path('result/<int:poll_id>', result.fetchresult),
 ]
