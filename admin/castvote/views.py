@@ -6,6 +6,10 @@ import pickle
 import sys
 import os
 
+from web3 import Web3, HTTPProvider
+from web3.contract import ConciseContract
+
+
 sys.path.append(os.path.abspath('..'))
 
 from linkable_ring_signature import verify_ring_signature 
@@ -32,5 +36,23 @@ def castvote(request, poll_id, hash_val):
 	elif valid < 0:
 		msg = 'You have already voted'
 	else:
+		contract_abi = pickle.load(open("../conf/" + str(poll_id) + "contract_abi", 'rb'))
+		contract_address = pickle.load(open("../conf/" + str(poll_id) + "contract_address", 'rb'))
+		ConciseContract = pickle.load(open("../conf/" + str(poll_id) + "ConciseContract", 'rb'))
+
+		contract_instance = eth_provider.contract(
+			abi=contract_abi,
+			address=contract_address,
+			ContractFactoryClass=ConciseContract,
+		)
+
+		default_account = eth_provider.accounts[0]
+	 	
+		transaction_details = {
+    		'from': default_account,
+		}
+
+		contract_instance.commitVote(hash_val, transact=transaction_details)
+
 		msg = 'your vote hash has been published in blockchain'
 	return HttpResponse(msg, content_type='text/plain')

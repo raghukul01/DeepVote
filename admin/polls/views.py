@@ -5,7 +5,17 @@ from django.utils import timezone
 from django.views import generic
 
 from .models import Choice, Question
+import datetime
+import pickle
 
+# solc is needed to compile our Solidity code
+from solc import compile_source
+
+# web3 is needed to interact with eth contracts
+from web3 import Web3, HTTPProvider
+
+# we'll use ConciseContract to interact with our specific instance of the contract
+from web3.contract import ConciseContract
 
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
@@ -33,7 +43,64 @@ class ResultsView(generic.DetailView):
 
 
 def vote(request, question_id):
+    print (question_id)
     question = get_object_or_404(Question, pk=question_id)
+    _commit_end = question.pub_date
+    # print (type(date))
+    commit_end = int((_commit_end.replace(tzinfo=None) - datetime.datetime(1970,1,1).replace(tzinfo=None)).total_seconds())
+
+    # start of contract work
+
+    http_provider = HTTPProvider('http://localhost:8545')
+    eth_provider = Web3(http_provider).eth
+
+    default_account = eth_provider.accounts[0]
+    transaction_details = {
+        'from': default_account,
+    }
+
+    # load our Solidity code into an object
+    with open('polls/poll.sol') as file:
+        source_code = file.readlines()
+
+    # compile the contract
+    compiled_code = compile_source(''.join(source_code))
+
+    # store contract_name so we keep our code DRY
+    contract_name = 'pollBooth'
+
+    contract_bytecode = compiled_code[f'<stdin>:{contract_name}']['bin']
+    contract_abi = compiled_code[f'<stdin>:{contract_name}']['abi']
+
+    contract_factory = eth_provider.contract(
+        abi=contract_abi,
+        bytecode=contract_bytecode,
+    )
+
+    facultylist = pickle.load(open('conf/faculty.pub', 'rb'))
+    
+    contract_constructor = contract_factory.constructor(100, len(facultylist), commit_end, commit_end + 10)
+
+    transaction_hash = contract_constructor.transact(transaction_details)
+
+    transaction_receipt = eth_provider.getTransactionReceipt(transaction_hash)
+    contract_address = transaction_receipt['contractAddress']
+
+    contract_instance = eth_provider.contract(
+        abi=contract_abi,
+        address=contract_address,
+        ContractFactoryClass=ConciseContract,
+    )
+
+    with open ("conf/"+ str(question_id) + "contract_abi", 'wb') as handle:
+        pickle.dump(contract_abi, handle, protocol=3)
+
+    with open ("conf/"+ str(question_id) + "contract_address", 'wb') as handle:
+        pickle.dump(contract_address, handle, protocol=3)
+
+    with open ("conf/"+ str(question_id) + "ConciseContract", 'wb') as handle:
+        pickle.dump(ConciseContract, handle, protocol=3)
+
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
