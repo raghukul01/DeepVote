@@ -20,7 +20,6 @@ from ecdsa.ecdsa import curve_secp256k1
 from ecdsa.curves import SECP256k1
 from ecdsa import numbertheory
 
-dic = pickle.load(open('unique_sig', 'rb'))
 
 def ring_signature(siging_key, key_idx, M, y, G=SECP256k1.generator, hash_func=sha3.keccak_256):
     """ 
@@ -83,7 +82,7 @@ def ring_signature(siging_key, key_idx, M, y, G=SECP256k1.generator, hash_func=s
     return (c[0], s, Y)
 
 
-def verify_ring_signature(message, y, c_0, s, Y, G=SECP256k1.generator, hash_func=sha3.keccak_256):
+def verify_ring_signature(pollid , message, y, c_0, s, Y, G=SECP256k1.generator, hash_func=sha3.keccak_256):
     """
         Verifies if a valid signature was made by a key inside a set of keys.
     
@@ -111,11 +110,12 @@ def verify_ring_signature(message, y, c_0, s, Y, G=SECP256k1.generator, hash_fun
             Boolean value indicating if signature is valid.
 
     """
+    dic=pickle.load(open("unique_sig"+str(pollid),'rb'))
     if Y in dic:
         print('Already voted')
         return -1
     dic.append(Y)
-    pickle.dump(dic, open('unique_sig', 'wb'))
+    pickle.dump(dic, open('unique_sig'+str(pollid), 'wb'))
     n = len(y)
     c = [c_0] + [0] * (n - 1)
 

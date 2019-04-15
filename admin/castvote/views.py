@@ -31,7 +31,7 @@ def castvote(request, poll_id, hash_val):
         http_provider = HTTPProvider('http://localhost:8545')
         eth_provider = Web3(http_provider).eth
         
-        valid = verify_ring_signature(hash_val, pubKeyList, *sig)
+        valid = verify_ring_signature(int(poll_id),hash_val, pubKeyList, *sig)
         
         msg = 'lol'
         if valid == 0:

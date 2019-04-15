@@ -7,7 +7,7 @@ from django.views import generic
 from .models import Choice, Question
 import datetime
 import pickle
-
+import subprocess
 # solc is needed to compile our Solidity code
 from solc import compile_source
 
@@ -43,6 +43,9 @@ class ResultsView(generic.DetailView):
 
 
 def vote(request, question_id):
+    bashCommand = "cp unique_sig_empty unique_sig"+str(question_id)
+    process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+    output, error = process.communicate()
     print (question_id)
     question = get_object_or_404(Question, pk=question_id)
     _commit_end = question.pub_date
