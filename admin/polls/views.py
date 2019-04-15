@@ -47,8 +47,11 @@ def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     _commit_end = question.pub_date
     # print (type(date))
-    commit_end = int((_commit_end.replace(tzinfo=None) - datetime.datetime(1970,1,1).replace(tzinfo=None)).total_seconds())
+    # print(int(_commit_end))
 
+    commit_end = int((_commit_end.replace(tzinfo=None) - datetime.datetime(1970,1,1).replace(tzinfo=None)).total_seconds())
+    
+    # print(commit_end)
     # start of contract work
 
     http_provider = HTTPProvider('http://localhost:8545')
@@ -79,7 +82,7 @@ def vote(request, question_id):
 
     facultylist = pickle.load(open('conf/faculty.pub', 'rb'))
     
-    contract_constructor = contract_factory.constructor(100, len(facultylist), commit_end, commit_end + 10)
+    contract_constructor = contract_factory.constructor(100, len(facultylist),40,70)
 
     transaction_hash = contract_constructor.transact(transaction_details)
 
