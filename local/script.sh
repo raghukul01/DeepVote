@@ -8,7 +8,7 @@ rm list.html
 IP=($(sed -n 's/.*href="\([^"]*\).*/\1/p' allPolls))
 echo "<html>" >> list.html
 echo "<head><link href=\"../poll.css\" rel=\"stylesheet\"></head><body><div id=\"main\"><div id=\"first\">" >> list.html
-echo "<h1>Polls Available</h1>"
+echo "<h1>Polls Available</h1>" >>list.html
 for each in "${IP[@]}"
 do
     if [[ ${each:0:3} == "/po" ]] ; then

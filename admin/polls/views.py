@@ -8,6 +8,7 @@ from .models import Choice, Question
 import datetime
 import pickle
 import subprocess
+import requests
 # solc is needed to compile our Solidity code
 from solc import compile_source
 
@@ -56,6 +57,31 @@ def vote(request, question_id):
     
     # print(commit_end)
     # start of contract work
+    
+    r=requests.get("http://127.0.0.1:8000/polls/"+str(question_id))
+    print(r.content)
+    resp=str(r.content).split('\\n')
+    print("before strip")
+    print(resp)
+    resp=[x.strip() for x in resp]
+
+    print("before after")
+    print(resp)
+    choices=[]
+    for i in resp:
+        if('label' in i):
+            temp=""
+            fl=0
+            for j in range(1,len(i)):
+                if(i[j]=='>'):
+                    fl=1
+                    continue
+                if(i[j]=='<'):
+                    fl=0
+                if(fl==1):
+                    temp+=i[j]
+            choices.append(temp)
+
 
     http_provider = HTTPProvider('http://localhost:8545')
     eth_provider = Web3(http_provider).eth
@@ -85,7 +111,7 @@ def vote(request, question_id):
 
     facultylist = pickle.load(open('conf/faculty.pub', 'rb'))
     
-    contract_constructor = contract_factory.constructor(100, len(facultylist),40,70)
+    contract_constructor = contract_factory.constructor(len(choices), len(facultylist),40,70)
 
     transaction_hash = contract_constructor.transact(transaction_details)
 
