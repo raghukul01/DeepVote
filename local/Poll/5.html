@@ -1,15 +1,14 @@
 <html>
-<style>input[type=text], select {  width: 100%;padding: 12px 20px;margin: 8px 0;display: inline-block;border: 1px solid #ccc;border-radius: 4px;box-sizing: border-box;}input[type=submit] {width: 100%;background-color: #4CAF50;color: white;padding: 14px 20px;  margin: 8px 0; border: none;border-radius: 4px;cursor: pointer;}input[type=submit]:hover {background-color: #45a049;}div {border-radius: 5px;background-color: #f2f2f2;padding: 20px;}</style><body><div>
+<head><link href="../poll.css" rel="stylesheet"></head><body><div id="main"><div id="first">
 <form action="../sign.php" method="post">
-<fieldset><legend>test1?</legend>
+<h1>test1?</h1>
 <input type="radio" value="0" name="vote"><label>test</label>
 <br>
-</fieldset>
-<input type="password" name="pollno" value="5" readonly hidden>
-<input type="submit" value="Vote">
+<input type="text" name="pollno" value="5" readonly hidden>
+<div class="container"><input type="submit" value="Vote"></div>
 </form>
 <form action="../reveal.php" method="post">
-<input type="password" name="pollno" value="5" readonly hidden>
-<input type="submit" value="Reveal">
-</form></div></body>
+<input type="text" name="pollno" value="5" readonly hidden>
+<div class="container"><input type="submit" value="Reveal"></div>
+</form></div></div></body>
 </html>
