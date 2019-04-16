@@ -79,7 +79,7 @@ def vote(request, question_id):
 
     facultylist = pickle.load(open('conf/faculty.pub', 'rb'))
     
-    contract_constructor = contract_factory.constructor(100, len(facultylist), commit_end, commit_end + 120)
+    contract_constructor = contract_factory.constructor(100, len(facultylist), commit_end, commit_end + 10)
 
     transaction_hash = contract_constructor.transact(transaction_details)
 

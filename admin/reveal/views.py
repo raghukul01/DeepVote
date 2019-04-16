@@ -60,5 +60,17 @@ def revealvote(request, poll_id, nounce, vote):
 
 	contract_instance.revealVote(revealval, transact=transaction_details)
 
+	time.sleep(11)
+
+	contract_instance.countVotes(transact=transaction_details)
+
+	num_votes = []
+
+	for i in range(10):
+		count_vote = contract_instance.voteCountCandidate(i)
+		num_votes.append(count_vote)
+
+	print (num_votes)
+
 	return HttpResponse('your vote has been reveal in blockchain, '+
 							'hold back for results :)', content_type='text/plain')
