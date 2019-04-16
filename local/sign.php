@@ -15,8 +15,8 @@
 
     shell_exec("python3 hash.py ".$vote." ".$nonce." ".$pollno); 
     /* $data = $nonce.$vote; */
-    echo $nonce,"\n";
-    echo $vote,"\n";
+    /* echo $nonce,"\n"; */
+    /* echo $vote,"\n"; */
     /* echo $data,"\n"; */
     /* $datahash = hash("sha256", $data); */
     file_put_contents($pollno."vote.txt", $vote);
@@ -24,7 +24,7 @@
     /* file_put_contents($pollno."datahash.txt", $datahash); */
 
     shell_exec("python3 linkable_ring_signature.py ".$pollno);
-
+    echo "Your signature will be sent if the current time is less than the end of voting time";
 
   }
 ?>
