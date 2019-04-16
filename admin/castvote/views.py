@@ -36,9 +36,9 @@ def castvote(request, poll_id, hash_val):
 	elif valid < 0:
 		msg = 'You have already voted'
 	else:
-		contract_abi = pickle.load(open("../conf/" + str(poll_id) + "contract_abi', 'rb'))
-		contract_address = pickle.load(open("../conf/" + str(poll_id) + "contract_address', 'rb'))
-		ConciseContract = pickle.load(open("../conf/" + str(poll_id) + "ConciseContract', 'rb'))
+		contract_abi = pickle.load(open("../conf/" + str(poll_id) + "contract_abi", 'rb'))
+		contract_address = pickle.load(open("../conf/" + str(poll_id) + "contract_address", 'rb'))
+		ConciseContract = pickle.load(open("../conf/" + str(poll_id) + "ConciseContract", 'rb'))
 
 		contract_instance = eth_provider.contract(
 			abi=contract_abi,
