@@ -17,6 +17,9 @@ import pickle
 import sys
 import requests
 
+from web3 import Web3, HTTPProvider,eth 
+from web3.contract import ConciseContract
+
 from ecdsa.util import randrange
 from ecdsa.ecdsa import curve_secp256k1
 from ecdsa.curves import SECP256k1
@@ -368,6 +371,9 @@ def main():
     sig = ring_signature(privkey, index, hashVal, pubKeys)
     pickle.dump(sig, open('sig_dump', 'wb'))
 
+    http_provider = HTTPProvider('http://localhost:8545')
+    eth_provider = Web3(http_provider).eth
+
     with open('sig_dump', 'rb') as f:
         r = requests.post('http://127.0.0.1:8000/castvote/'\
                            +pollNo+'/'+hashVal, files={'sig_dump': f})
@@ -375,6 +381,12 @@ def main():
 
     assert(verify_ring_signature(hashVal, pubKeys, *sig))
 
+    block=(eth_provider.getBlock('latest'))['number']
+
+    with open(str(pollNo)+'BlockVote.txt','w') as f:
+        f.write(str(block))
+    f.close()
+    
     # x = [ randrange(SECP256k1.order) for i in range(2)]
     # y = list(map(lambda xi: SECP256k1.generator * xi, x))
     # print(x,y)
