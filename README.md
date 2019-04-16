@@ -7,7 +7,7 @@ DeepVote is an Ethereum based online voting system for faculty members. It allow
 # Setup
 Prerequisites:
   * Web3.py
-  * Solc 0.4.2.4
+  * Solc 0.4.24
   * Django
   * Php
   * Ganache CLI
