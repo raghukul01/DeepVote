@@ -24,7 +24,7 @@
     /* file_put_contents($pollno."datahash.txt", $datahash); */
 
     shell_exec("python3 linkable_ring_signature.py ".$pollno);
-    echo "Your signature will be sent if the current time is less than the end of voting time";
+    echo "Your vote will be recorded subject to verification.";
 
   }
 ?>
