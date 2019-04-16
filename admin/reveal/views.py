@@ -9,6 +9,9 @@ import datetime
 import sys
 import os
 
+from web3 import Web3, HTTPProvider
+from web3.contract import ConciseContract
+
 sys.path.append(os.path.abspath('..'))
 
 from polls.models import Question, Choice 
@@ -31,6 +34,31 @@ def revealvote(request, poll_id, nounce, vote):
 	
 	# need to send the poll to blockchain
 	print(poll_id, nounce, vote)
+
+	contract_abi = pickle.load(open("../conf/" + str(poll_id) + "contract_abi', 'rb'))
+	contract_address = pickle.load(open("../conf/" + str(poll_id) + "contract_address', 'rb'))
+	ConciseContract = pickle.load(open("../conf/" + str(poll_id) + "ConciseContract', 'rb'))
+
+	contract_instance = eth_provider.contract(
+		abi=contract_abi,
+		address=contract_address,
+		ContractFactoryClass=ConciseContract,
+	)
+
+	default_account = eth_provider.accounts[0]
+	
+	transaction_details = {
+		'from': default_account,
+	}
+
+	nonce = nounce.encode().hex()
+	hexvote = hex(vote)[2:]
+	if (vote < 16):
+		hexvote = '0' + hexvote
+		
+	revealval = '0x' + nonce + hexvote
+
+	contract_instance.revealVote(revealval, transact=transaction_details)
 
 	return HttpResponse('your vote has been reveal in blockchain, '+
 							'hold back for results :)', content_type='text/plain')
