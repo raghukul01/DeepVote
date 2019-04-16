@@ -16,13 +16,13 @@ The final results will be viewable on the admin webpage.
 
 # How it works
 
-##Preserving Anonymity
+## Preserving Anonymity
 The **Two Stage Commit-Reveal Voting** & **One Time Ring Signature**  logics used in our app takes care of keeping the voter anonymous even in a closed voting group. The admin contract needs to verify if the voter is a valid one i.e. In the list of eligible voters & has not voted before,which is accomplished by the OTRS. Thereafter,the TSCRV aids in making the vote hash/vote verifiable on the blockchain without giving a hint away about the users identity.
 
-##Verifying Correct Voting
+## Verifying Correct Voting
 The voter can use his transaction id to access the hash of his committed vote and a randomly generated nonce on the blockchain which is as well saved as a local copy on the disk.The user can hash his vote and nonce manually and compare it with one uploaded on the blockchain to ensure the integrity of the poll.
 
-##Keeping Private Information Secure/Taking Impersonation out of Question
+## Keeping Private Information Secure/Taking Impersonation out of Question
 Assuming that the voter's device is password protected, the architecture of the app ensures that user's private information doesn't go out from his device i.e. private key,vote,nonce etc. are saved on voter's PC and all manipulation using them are done locally.
 
 
