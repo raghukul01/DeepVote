@@ -7,7 +7,7 @@ Anonymous faculty voting system developed by:
 | Lakshay Bandlish |  160360 | lakshayb@iitk.ac.in |
 |  Raghukul Raman  |  160538 | raghukul@iitk.ac.in |
 |   Yash Mahajan   |  160822 | ymahajan@iitk.ac.in |
-|  Yasharth Bajpai |  160822 |   yashb@iitk.ac.in  |
+|  Yasharth Bajpai |  170822 |   yashb@iitk.ac.in  |
 
 # Introduction
 DeepVote is an Ethereum based online voting system for faculty members. It allow faculty members of any institution to vote on any matter. With the help of blockchain, out voting system provides anonymity to the users and the votes can not be tampered once casted.
